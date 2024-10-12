@@ -2,14 +2,13 @@ import sys
 
 
 def app(n, m):
-    print(n, m)
-    main_array = [i for i in range(1, n + 1)]
+    start_value = 1
     step = m - 1
-    print(main_array[0]) 
-    dif = main_array[0] + step 
-    while dif != main_array[0]:               
+    print(start_value)
+    dif = start_value + step 
+    while dif != start_value:               
         if dif > n:
-            dif -= n
+            dif -= n 
         else:
             print(dif)
             dif += step

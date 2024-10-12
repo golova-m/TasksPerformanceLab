@@ -2,38 +2,34 @@ import sys
 import json
 
 
-def print_el(data):
-    value_dic = {}
+def creating_dict_values(data):
+    value_dict = {}
     for value in data['values']:
-        value_dic[value['id']] = value['value']
-    return(value_dic)
+        value_dict[value['id']] = value['value']
+    return(value_dict)
 
 
-def iter_test(data, key, value_dic):
+def iter_test(data, key, value_dict):
     for i in data:
         if key in i:
-            if i['id'] in value_dic:
-                i['value'] = value_dic[i['id']]          
-            iter_test(i[key], key, value_dic)
+            if i['id'] in value_dict:
+                i['value'] = value_dict[i['id']]          
+            iter_test(i[key], key, value_dict)
         else:
-            if i['id'] in value_dic:
-                i['value'] = value_dic[i['id']]
+            if i['id'] in value_dict:
+                i['value'] = value_dict[i['id']]
     return data
 
 
 def app(file1, file2, file3):
-    with open(file1, 'r') as test_str:
-        data = json.load(test_str)
-    value_dic = print_el(data)
-
-    with open(file2, 'r') as test_str:
-        data = json.load(test_str)
-
-    data['tests'] = iter_test(data['tests'], 'values', value_dic)
+    with open(file1, 'r') as file1, open(file2, 'r') as file2:
+        data_value_json = json.load(file1)
+        data_tests_json = json.load(file2)
+    value_dict = creating_dict_values(data_value_json)
+    data_tests_json['tests'] = iter_test(data_tests_json['tests'], 'values', value_dict)
     
-
-    with open(file3, 'w') as test_str:
-        json.dump(data, test_str)
+    with open(file3, 'w') as file:
+        json.dump(data_tests_json, file)
     
 
 
